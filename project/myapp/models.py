@@ -19,4 +19,5 @@ class Students(models.Model):
     isDelete = models.BooleanField(default=False)
     # 关联外键
     sgrade = models.ForeignKey("Grades",on_delete=models.CASCADE)
-
+    def __str__(self):
+        return self.sname
