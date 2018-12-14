@@ -44,7 +44,8 @@ class StudentsAdmin(admin.ModelAdmin):
             return '在职'
     isd.short_description = '是否在职'
 
-    list_display = [name,gender,'sage','scontend',isd,'sgrade']
+    list_display = ['id',name,gender,'sage','scontend',isd,'sgrade','lastTime','createTime']
+    #fields = ['sname','sgender','sage','scontend','isDelete','sgrade']
     list_per_page = 10
 
     #执行动作 的位置

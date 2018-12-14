@@ -3,7 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse
 def index(request):
-    return HttpResponse("hello world")
+    #return HttpResponse("hello world")
+    return render(request,'myapp/index.html')
 def detail(request,num):
     return HttpResponse("detail - %s"%num)
 
@@ -16,7 +17,7 @@ def grades(request):
 
 def students(request):
     #去模型里取数据
-    studentsList = Students.objects.all()
+    studentsList = Students.stuObj1.all()
     #将数据传递给模板，渲染成页面,返回给用户
     return render(request,'myapp/students.html',{'students':studentsList})
 
@@ -26,3 +27,16 @@ def gradesstudents(request,num):
     #获得班级下的所有学生信息列表
     studentsList = grade.students_set.all()
     return render(request, 'myapp/students.html', {'students': studentsList})
+
+def addstudent(request):
+    grade = Grades.objects.get(pk=1)
+    stu = Students.createStudent("刘德华",34,True,"我叫刘德华",grade,)
+    stu.save()
+    return HttpResponse("保存")
+
+def addstudent1(request):
+    grade = Grades.objects.get(pk=1)
+    stu = Students.createStudent("张学友",22,True,"我就张学友",grade)
+    stu.save()
+    return HttpResponse("保存")
+
