@@ -33,8 +33,8 @@ class Students(models.Model):
     sage = models.IntegerField()
     scontend = models.CharField(max_length=20)
     isDelete = models.BooleanField(default=False,db_column='isdelete')
-    lastTime = models.DateTimeField(auto_now=True)
-    createTime = models.DateTimeField(auto_now_add=True)
+    lastTime = models.DateTimeField(auto_now=True,db_column='lasttime')
+    createTime = models.DateTimeField(auto_now_add=True,db_column='createtime')
     # 关联外键
     sgrade = models.ForeignKey("Grades",on_delete=models.CASCADE)
     def __str__(self):
