@@ -34,15 +34,22 @@ def stupage(request,page):
     studentsList = Students.stuObj1.all()[(page-1)*5:page*5]
     return render(request, 'myapp/students.html', {'students': studentsList})
 
-#
+from django.db.models import Max,Q
 def studentssearch(request):
     #studentsList = Students.stuObj1.all().filter(sname__contains="张")
     #studentsList = Students.stuObj1.all().filter(sname__startswith="张")
     #studentsList = Students.stuObj1.all().filter(sname__endswith="1")
     #studentsList = Students.stuObj1.all().filter(id__in=[1,2,4,5,10])
     #studentsList = Students.stuObj1.all().filter(sage__gt=30)
-    studentsList = Students.stuObj1.all().filter(lastTime__year=2017)
+    #studentsList = Students.stuObj1.all().filter(lastTime__year=2017)
+    #studentsList = Students.stuObj1.all().filter(sname__contains="%")
+    #描述中带有"薛艳梅"这三个字的数据属于哪一个班级的
+    grade = Grades.objects.all().filter(students__scontend__contains="薛艳梅")
+    print(grade)
+    #maxAge = Students.stuObj1.aggregate(Max("sage"))
+    #studentsList = Students.stuObj1.all().filter(sage=maxAge.get('sage__max'))
 
+    studentsList =Students.stuObj1.filter(Q(pk__lt=5) | Q(sage__gt=50))
 
     return render(request,'myapp/students.html',{'students':studentsList})
 
@@ -65,4 +72,87 @@ def addstudent1(request):
     stu = Students.stuObj1.createStudent("张学友1",22,True,"我就张学友",grade)
     stu.save()
     return HttpResponse("保存")
+
+
+from django.db.models import F
+def grades1(request):
+    g = Grades.objects.filter(ggirlnum__gt=F("gboynum"))
+    print(g)
+    return HttpResponse(g)
+
+def attriblues(request):
+    print(request.path)
+    print(request.method)
+    print(request.encoding)
+    print(request.GET)
+    print(request.POST)
+    print(request.FILES)
+    print(request.COOKIES)
+    print(request.session)
+
+    return HttpResponse("attriblues")
+
+#获取get传递的数据
+def get1(request):
+    a = request.GET.get('a')
+    b = request.GET.get('b')
+    c = request.GET.get('c')
+    return HttpResponse(a + ' ' + b + ' ' + c)
+
+def get2(request):
+    a = request.GET.getlist('a')
+    a1 = a[0]
+    a2 = a[1]
+    c = request.GET.get('c')
+    return HttpResponse(a1 + ' ' + a2 + ' ' + c)
+
+#POST
+def showregist(request):
+    return render(request,'myapp/regist.html')
+def regist(request):
+    name = request.POST.get('name')
+    gender = request.POST.get('gender')
+    age = request.POST.get('age')
+    hobby = request.POST.getlist('hobby')
+    print(name)
+    print(gender)
+    print(age)
+    print(hobby)
+    return HttpResponse('post')
+
+#Responese
+def showresponse(request):
+    res = HttpResponse()
+    res.content = b'good'
+    print(res.content)
+    print(res.charset)
+    print(res.status_code)
+    return res
+
+
+#cookie
+def cookietest(request):
+    res = HttpResponse()
+    cookie = res.set_cookie('sunck','good')
+    return res
+def showcookie(request):
+    res = HttpResponse()
+    cookie = request.COOKIES
+    res.write('<h1>'+cookie['sunck']+'</h1>')
+    return res
+
+#重定向
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+def redirect1(request):
+    return redirect('/redirect2')
+    #return HttpResponseRedirect('/redirect2')
+def redirect2(request):
+    return HttpResponse('我是重定向后的视图')
+
+
+
+
+
+
 

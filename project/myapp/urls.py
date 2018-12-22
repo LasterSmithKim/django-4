@@ -15,4 +15,23 @@ urlpatterns = [
     re_path(r'^grades/(\d+)/$',views.gradesstudents),
     re_path(r'^addstudent/$',views.addstudent),
     re_path(r'^addstudent1/$',views.addstudent1),
+    re_path(r'^grades1/$',views.grades1),
+
+    re_path(r'^attriblues/$',views.attriblues),
+    re_path(r'^get1/$',views.get1),
+    re_path(r'^get2/$',views.get2),
+
+    re_path(r'^showregist/$',views.showregist),
+    re_path(r'^regist/$', views.regist),
+
+    re_path(r'^showresponse/$',views.showresponse),
+
+    re_path(r'^cookietest/$',views.cookietest),
+    re_path(r'^showcookie/$',views.showcookie),
+
+    re_path(r'^redirect1/$', views.redirect1),
+    re_path(r'^redirect2/$', views.redirect2),
+
+
+
 ]
