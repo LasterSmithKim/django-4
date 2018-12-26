@@ -32,6 +32,11 @@ urlpatterns = [
     re_path(r'^redirect1/$', views.redirect1),
     re_path(r'^redirect2/$', views.redirect2),
 
+    re_path(r'^main/$',views.main),
+    re_path(r'^login/$',views.login),
+    re_path(r'^showmain/$',views.showmain),
+    re_path(r'^quit/$',views.quit),
+
 
 
 ]

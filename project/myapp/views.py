@@ -150,6 +150,32 @@ def redirect1(request):
 def redirect2(request):
     return HttpResponse('我是重定向后的视图')
 
+#用户登录session
+def main(request):
+    #取session
+    username = request.session.get('name','游客')
+    print(username)
+    return render(request,'myapp/main.html',{'username':username})
+def login(request):
+    return render(request,'myapp/login.html')
+def showmain(request):
+    print('******')
+    username = request.POST.get('username')
+    #存储session
+    request.session['name']=username
+    request.session.set_expiry(10)#10秒后过期
+    return redirect('/main')
+from django.contrib.auth import logout
+def quit(request):
+    #清除session
+    logout(request)
+    #request.session.clear()
+    #request.session.flush()
+    return redirect('/main')
+
+
+
+
 
 
 
